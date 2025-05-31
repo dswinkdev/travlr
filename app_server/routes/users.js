@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET home page. */
+// Example route
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Travlr Home' });
+  res.send('respond with a user resource');
 });
 
 module.exports = router;
