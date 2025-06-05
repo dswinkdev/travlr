@@ -1,5 +1,5 @@
 const moogoose = require('mongoose');
-const { index } = require('../controllers/main');
+const { index } = require('../../app_server/controllers/main');
 
 // Define the trip schema
 const tripSchema = new moogoose.Schema({
