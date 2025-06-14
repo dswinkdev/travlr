@@ -1,0 +1,9 @@
+<!-- Add Trip Button -->
+<button (click)="addTrip()" class="btn btn-info mb-3">Add Trip</button>
+
+<!-- Responsive Trip Cards -->
+<div class="row">
+  <div *ngFor="let trip of trips" class="col-12 col-sm-6 col-md-4 mb-4">
+    <app-trip-card [trip]="trip"></app-trip-card>
+  </div>
+</div>
