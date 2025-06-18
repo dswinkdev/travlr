@@ -11,7 +11,7 @@ import { TripDataService } from '../services/trip-data';
   templateUrl: './edit-trip.html',
   styleUrls: ['./edit-trip.css']
 })
-export class EditTrip implements OnInit {
+export class EditTripComponent implements OnInit {
   editForm!: FormGroup;
   submitted = false;
 
