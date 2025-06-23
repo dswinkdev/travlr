@@ -28,8 +28,12 @@ export class AuthenticationService {
     return token ? token : '';
   }
 
+  // ✅ FIXED isLoggedIn to check if token exists and is valid
   public isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+
+    // Simple check: token exists and has three parts (JWT format)
+    return !!token && token.split('.').length === 3;
   }
 
   public logout(): void {
@@ -37,7 +41,7 @@ export class AuthenticationService {
     this.authResp = new AuthResponse();
   }
 
-  // Update login method to accept password argument
+  // Login: uses tripDataService and stores token
   public login(user: User, passwd: string): Observable<AuthResponse> {
     return this.tripDataService.login(user, passwd).pipe(
       tap((res: AuthResponse) => {
@@ -49,7 +53,7 @@ export class AuthenticationService {
     );
   }
 
-  // Update register method to accept password argument
+  // Register: same as login, stores token
   public register(user: User, passwd: string): Observable<AuthResponse> {
     return this.tripDataService.register(user, passwd).pipe(
       tap((res: AuthResponse) => {

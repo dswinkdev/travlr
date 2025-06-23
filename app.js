@@ -1,3 +1,4 @@
+require('dotenv').config(); // ✅ .env
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -15,6 +16,10 @@ var apiRouter = require('./app_api/routes/index');
 // Bring in the database
 require('./app_api/models/db');
 
+// ✅ Wire in authentication module
+var passport = require('passport');
+require('./app_api/config/passport');
+
 var app = express();
 
 // ✅ View engine setup
@@ -28,6 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 // ✅ Enable CORS for API calls from Angular
 app.use('/api', cors({
@@ -45,6 +51,15 @@ app.use('/api', apiRouter);
 // ✅ Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+});
+
+// ✅ Catch unauthorized error and create 401 response
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({ message: err.name + ': ' + err.message });
+  } else {
+    next(err); // Pass to the next error handler
+  }
 });
 
 // ✅ Error handler

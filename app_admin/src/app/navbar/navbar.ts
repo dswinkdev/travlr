@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterModule, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../services/authentication';
-import { RouterModule } from '@angular/router';
 
 @Component({ 
   selector: 'app-navbar', 
   standalone: true, 
-  imports: [CommonModule, RouterLink ], 
+  imports: [CommonModule, RouterModule, RouterLink], 
   templateUrl: './navbar.html', 
-  styleUrl: './navbar.css', 
+  styleUrls: ['./navbar.css'],  
 }) 
-
 export class NavbarComponent implements OnInit { 
   
   constructor(
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private router: Router   // Inject router to navigate after logout
   ) { } 
   
   ngOnInit() { } 
@@ -25,6 +24,7 @@ export class NavbarComponent implements OnInit {
   } 
   
   public onLogout(): void { 
-    return this.authenticationService.logout(); 
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);  // Redirect after logout
   } 
-} 
+}

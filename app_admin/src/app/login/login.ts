@@ -56,13 +56,19 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(user, this.credentials.password)
       .subscribe({
         next: (res) => {
+          console.log('Login response:', res);
           if (res && res.token) {
-            this.router.navigate(['/']);
+            localStorage.setItem('token', res.token);   // Save JWT
+            console.log('✅ Token saved. Redirecting to trips page...');
+            this.router.navigate(['/']);                // Navigate to TripListingComponent
+          } else {
+            this.formError = 'Invalid response from server.';
+            console.warn('⚠️ Invalid login response:', res);
           }
         },
         error: (err) => {
           this.formError = 'Login failed. Please check your credentials.';
-          console.error('Login error:', err);
+          console.error('❌ Login error:', err);
           this.submitted = false;
         }
       });
